@@ -11,6 +11,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20160318175136) do
+
+  create_table "constracts", force: :cascade do |t|
+    t.integer  "hotel_id",           limit: 4
+    t.string   "customer_id_number", limit: 255
+    t.string   "company_name",       limit: 255
+    t.string   "company_address",    limit: 255
+    t.string   "company_phone",      limit: 255
+    t.string   "booking_rooms",      limit: 255
+    t.date     "check_in_date"
+    t.date     "checkout_out_date"
+    t.integer  "status",             limit: 4
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
+  create_table "hotels", force: :cascade do |t|
+    t.string   "code",            limit: 255
+    t.string   "name",            limit: 255
+    t.integer  "star",            limit: 4
+    t.string   "city",            limit: 255
+    t.string   "country",         limit: 255
+    t.string   "address",         limit: 255
+    t.string   "website",         limit: 255
+    t.string   "phone",           limit: 255
+    t.integer  "total_rooms",     limit: 4
+    t.integer  "available_rooms", limit: 4
+    t.integer  "cost",            limit: 4
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
 
 end

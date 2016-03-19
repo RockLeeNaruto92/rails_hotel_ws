@@ -15,6 +15,18 @@ class ServicesController < ApplicationController
     render soap: messages
   end
 
+  soap_action "is_existed_hotel",
+    args: {code: :string, name: :string},
+    return: :boolean
+
+  def is_existed_hotel
+    hotel = Hotel.find_by code: params[:code] if params[:code].present?
+    if !hotel.present? && params[:name].present?
+      hotel = Hotel.find_by name: params[:name] unless hotel.present?
+    end
+    render soap: hotel.present?
+  end
+
   private
   def standarlize_params
     params.keys.each do |key|

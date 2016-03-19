@@ -6,10 +6,10 @@ class CreateConstracts < ActiveRecord::Migration
       t.string :company_name
       t.string :company_address
       t.string :company_phone
-      t.string :booking_rooms
+      t.integer :booking_rooms
       t.date :check_in_date
-      t.date :checkout_out_date
-      t.integer :status
+      t.date :check_out_date
+      t.integer :total_money
 
       t.timestamps null: false
     end

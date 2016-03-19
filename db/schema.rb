@@ -19,10 +19,10 @@ ActiveRecord::Schema.define(version: 20160318175136) do
     t.string   "company_name",       limit: 255
     t.string   "company_address",    limit: 255
     t.string   "company_phone",      limit: 255
-    t.string   "booking_rooms",      limit: 255
+    t.integer  "booking_rooms",      limit: 4
     t.date     "check_in_date"
-    t.date     "checkout_out_date"
-    t.integer  "status",             limit: 4
+    t.date     "check_out_date"
+    t.integer  "total_money",        limit: 4
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
   end

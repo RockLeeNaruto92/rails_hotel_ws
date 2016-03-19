@@ -1,3 +1,5 @@
 en:
+  errors:
+    param_not_present: "Param %{param} is required!"
   action:
     success: "Successfully!"

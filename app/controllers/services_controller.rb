@@ -27,6 +27,18 @@ class ServicesController < ApplicationController
     render soap: hotel.present?
   end
 
+  soap_action "find_hotels_by_city",
+    args: {cityName: :string},
+    return: :string
+
+  def find_hotels_by_city
+    if params[:cityName].present?
+      render soap: Hotel.where(city: params[:cityName]).to_json
+    else
+      render soap: I18n.t("errors.param_not_present", param: "cityName")
+    end
+  end
+
   private
   def standarlize_params
     params.keys.each do |key|

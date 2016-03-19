@@ -66,6 +66,13 @@ class ServicesController < ApplicationController
     end
   end
 
+  soap_action "get_all_hotels",
+    return: :string
+
+  def get_all_hotels
+    render soap: Hotel.all.to_json
+  end
+
   private
   def standarlize_params
     params.keys.each do |key|

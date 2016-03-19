@@ -39,6 +39,20 @@ class ServicesController < ApplicationController
     end
   end
 
+  soap_action "add_new_constract",
+    args: {hotelID: :integer, customerIdNumber: :string,
+      companyName: :string, companyPhone: :string,
+      companyAddress: :string, bookingRooms: :integer,
+      checkInDate: :date, checkOutDate: :date},
+    return: :string
+
+  def add_new_constract
+    standarlize_params
+    constract = Constract.new params
+    messages = constract.save ? I18n.t("action.success") : constract.errors.full_messages
+    render soap: messages
+  end
+
   private
   def standarlize_params
     params.keys.each do |key|

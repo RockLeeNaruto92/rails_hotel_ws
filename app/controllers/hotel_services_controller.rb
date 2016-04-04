@@ -1,4 +1,4 @@
-class ServicesController < ApplicationController
+class HotelServicesController < ApplicationController
   soap_service namespace: "urn:hotel_ws", wsdl_style: "document"
 
   soap_action "add_new_hotel",
@@ -41,15 +41,16 @@ class ServicesController < ApplicationController
 
   soap_action "add_new_constract",
     args: {add_new_constract_request: {
-      hotelID: :integer, customerIdNumber: :string,
+      hotelId: :integer, customerIdNumber: :string,
       companyName: :string, companyPhone: :string,
       companyAddress: :string, bookingRooms: :integer,
-      checkInDate: :date, checkOutDate: :date}},
+      checkInDate: :string, checkOutDate: :string}},
     return: {result: :string}
 
   def add_new_constract
-    standarlize_params
-    constract = Constract.new params
+    params = get_constract_params
+
+    constract = Constract.new standarlize_params params
     messages = constract.save ? I18n.t("action.success") : constract.errors.full_messages
     render soap: {result: messages}
   end
@@ -75,12 +76,21 @@ class ServicesController < ApplicationController
   end
 
   private
-  def standarlize_params
+  def standarlize_params params = params
     params.keys.each do |key|
       unless key.to_s == key.to_s.underscore
         params[key.to_s.underscore.to_sym] = params[key]
         params.delete key
       end
     end
+    params
+  end
+
+  def get_constract_params
+    check_in_date = params[:add_new_constract_request][:checkInDate].to_date
+    check_out_date = params[:add_new_constract_request][:checkOutDate].to_s
+    params[:add_new_constract_request][:checkInDate] = check_in_date
+    params[:add_new_constract_request][:checkOutDate] = check_out_date
+    params[:add_new_constract_request]
   end
 end

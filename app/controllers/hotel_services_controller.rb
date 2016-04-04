@@ -56,15 +56,15 @@ class HotelServicesController < ApplicationController
   end
 
   soap_action "check_available_hotel",
-    args: {hotelCode: :string},
-    return: :boolean
+    args: {check_available_hotel_request: {hotelCode: :string}},
+    return: {result: :string}
 
   def check_available_hotel
-    if params[:hotelCode].present?
-      hotel = Hotel.find_by code: params[:hotelCode]
-      render soap: hotel.present? && hotel.available_rooms > 0
+    if params[:check_available_hotel_request] && params[:check_available_hotel_request][:hotelCode].present?
+      hotel = Hotel.find_by code: params[:check_available_hotel_request][:hotelCode]
+      render soap: {result: (hotel.present? && hotel.available_rooms > 0).to_s}
     else
-      render soap: I18n.t("errors.param_not_present", param: "hotelCode")
+      render soap: {result: I18n.t("errors.param_not_present", param: "hotelCode")}
     end
   end
 

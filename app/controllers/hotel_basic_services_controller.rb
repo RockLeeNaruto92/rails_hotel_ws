@@ -39,6 +39,18 @@ class HotelBasicServicesController < ApplicationController
     end
   end
 
+  soap_action "find_hotel_by_code",
+    args: {code: :string},
+    return: :string
+
+  def find_hotel_by_code
+    if params[:code].present?
+      render soap: Hotel.find_by(code: params[:code]).to_json
+    else
+      render soap: I18n.t("errors.param_not_present", param: "code")
+    end
+  end
+
   soap_action "get_all_hotels",
     return: :string
 

@@ -59,7 +59,7 @@ class HotelBasicServicesController < ApplicationController
   end
 
   private
-  def standarlize_params params
+  def standarlize_params
     params.keys.each do |key|
       unless key.to_s == key.to_s.underscore
         params[key.to_s.underscore.to_sym] = params[key]

@@ -15,6 +15,20 @@ class HotelBasicServicesController < ApplicationController
     render soap: messages
   end
 
+  soap_action "update_hotel",
+    args: {id: :integer, code: :string, name: :string, star: :integer,
+      city: :string, country: :string, address: :string,
+      website: :string, phone: :string, totalRooms: :integer,
+      cost: :integer},
+    return: :string
+
+  def update_hotel
+    standarlize_params
+    hotel = Hotel.find params[:id]
+    messages = hotel.update_attributes(params) ? I18n.t("action.success") : hotel.errors.full_messages
+    render soap: messages
+  end
+
   soap_action "is_existed_hotel",
     args: {code: :string, name: :string},
     return: :boolean
@@ -50,6 +64,15 @@ class HotelBasicServicesController < ApplicationController
       render soap: I18n.t("errors.param_not_present", param: "code")
     end
   end
+
+  soap_action "get_hotel_by_id",
+    args: {id: :integer},
+    return: :string
+
+  def get_hotel_by_id
+    render soap: Hotel.find(params[:id]).to_json
+  end
+
 
   soap_action "get_all_hotels",
     return: :string
